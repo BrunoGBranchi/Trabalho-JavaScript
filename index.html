@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<title>Cadastro</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<body bgcolor="#C0C0C0">
+
+<div align="center" class="w3-container">
+  <h2>Cadastro de Funcionários</h2>
+</div>
+
+<div class="w3-bar w3-black">
+  <button class="w3-bar-item w3-button" onclick="abrirAba('CadastroProfissao')">Nova Profissão</button>
+  <button class="w3-bar-item w3-button" onclick="abrirAba('CadastroFuncionario')">Novo Funcionario</button>
+  <button class="w3-bar-item w3-button" onclick="abrirAba('VizualizarFuncionarios')">Visualizar Funcionarios</button>
+</div>
+<form id="formularioProfissao">
+<div align="center" id="CadastroProfissao" class="w3-container aba">
+  <h2>Cadastro de Profissão</h2>
+  <br>
+    <br>
+    <label>Nome:</label>
+      <input type="text" id="nomeProfissao"required="required" placeholder="Digite a Profissão">
+      <br>
+    <br>
+    <button type="submit">Limpar</button>
+    <button type="submit">Adicionar</button>
+</div>
+</form> 
+<form id="formularioFuncionarios">
+<div align="center" id="CadastroFuncionario" class="w3-container aba" style="display:none">
+        <h2>Cadastro Funcionario</h2>
+      <br>
+      <div>
+        <label>Nome:</label>
+        <input type="text" id="nomefuncionario" required="required" placeholder="Informe o nome">
+      </div>
+      <br>
+      <div>
+        <label>Profissão:</label>
+        <select size="1" id="funcionarioProfissao"></select>
+      </div>
+      <br>
+      <div>
+        <label>Salario:</label>
+        <input type="Number" id="salario" required="required" placeholder="Informe o salario">
+      </div>
+      <br>
+      <div>
+        <label>Estado:</label>
+        <select size="1" id="estado"></select>
+      </div>
+      <br>
+      <div>
+        <label>Cidade:</label>
+        <select size="1" id="cidade"></select>
+      </div>
+      <br>
+      <button type="submit">Salvar</button>
+</div>
+</form>
+
+<div id="VizualizarFuncionarios" class="w3-container aba" style="display:none">
+  
+  <div align="center">
+
+    <h2>Funcionario</h2>
+
+        <table border="1">
+            <thead>
+                <th>Nome</th>
+                <th>Profissão</th>
+                <th>Salario</th>
+                <th>Estado</th>
+                <th>Cidade</th>
+                <th>Opcões</th>
+            </thead>
+            <tbody id="corpo-tabela">
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script type="text/javascript" src="script.js"></script>
+
+
+</body>
+</html>
