@@ -35,7 +35,7 @@
         function listaprofissoes1(listaprofissoes){     
                 var option = '<option>Selecione a profissao</option>';
                 $.each(listaprofissoes, function(i, obj){
-                    option += '<option value="'+obj.id+'">'+obj.nome+'</option>';
+                    option += '<option value="'+obj.nome+'">'+obj.nome+'</option>';
                 })      
                             
                 $("#funcionarioProfissao").html(option).show(); 
