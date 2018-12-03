@@ -11,6 +11,9 @@
                     $("#estado").html(option).show(); 
               }
         });
+
+
+
           $('#estado').change(function(e){
               var estado = $('#estado').val();
               $.ajax({
@@ -28,18 +31,15 @@
             })
           });
 
-        $(listaprofissoes).change(function(e){
-        var FuncionarioProfissao = $(listaprofissoes).val();
+
         function listaprofissoes1(listaprofissoes){     
-                var option = '<option>Selecione o Estado</option>';
+                var option = '<option>Selecione a profissao</option>';
                 $.each(listaprofissoes, function(i, obj){
                     option += '<option value="'+obj.id+'">'+obj.nome+'</option>';
                 })      
                             
-                $("#FuncionarioProfissao").html(option).show(); 
+                $("#funcionarioProfissao").html(option).show(); 
             }
-
-        });
 
  function abrirAba(menus) {
           var i;
@@ -113,9 +113,11 @@ function salvarprofissao(){
         }
     }
 
-    gravaNoLocalStorage();
-    zerarInputs();
+    gravaProfissaoNoLocalStorage();
+    zerarInputsProfissao();
     console.log(listaprofissoes);
+    listaprofissoes1(listaprofissoes);
+    renderizaProfissao();
     return false;
 }
 
@@ -176,16 +178,76 @@ function renderizaFuncionario(){
     }
 }
 
+function renderizaProfissao(){
+    // busco o tbody com o id
+    const tbody = $("#corpo-tabela-profissoes");
+
+
+    // zerando o conteúdo da tabela
+    tbody.html('');
+
+
+    for(let i=0; i<listaprofissoes.length; i++){
+        // Busco a pessoa da lista
+        const profissao = listaprofissoes[i];
+
+        // cria um elemento html do tipo tr
+        // table row - linha da tabela
+        let tr = $('<tr>');
+
+        // cria um elemento html do tipo td
+        // table data - dado da tabela
+        // popular os td com o valor a ser mostrado
+        let tdNome = $('<td>').text(profissao.nome);
+        let tdOpcoes = $('<td>');
+
+        let btnEditar = $('<button>').text('Editar');
+        let btnExcluir = $('<button>').text('Excluir');
+        
+        // associa o click a uma function
+        btnEditar.click(function () { 
+            editarprofissao(profissao.id); 
+        });
+
+        // associa o click a uma function
+        const fn_exc = function () { 
+            excluirprofissao(profissao.id); 
+        };
+        btnExcluir.click(fn_exc);
+        
+        tdOpcoes.append(btnEditar).append(btnExcluir);
+
+        // adiciono os td dentro do tr
+        // na order a ser exibida
+        tr.append(tdNome)
+            .append(tdOpcoes);
+
+        // adiciona o tr no tbody
+        tbody.append(tr);
+    }
+}
+
 function editar(id){
    let funcionario = findFuncionarioById(id);
 
-    if(tarefa){
+    if(funcionario){
         $("#nomefuncionario").val(funcionario.nome);
         $("#funcionarioProfissao").val(funcionario.profissao);
         $("#salario").val(funcionario.salario);
         $("#estado").val(funcionario.estado);
         $("#cidade").val(funcionario.cidade);
-        $("#id").val(tarefa.id);
+        $("#id").val(funcionario.id);
+    } else {
+        alert('Não foi possível encontrar a tarefa');
+    }
+}
+
+function editarprofissao(id){
+   let profissao = findProfissaoById(id);
+
+    if(profissao){
+        $("#nomeProfissao").val(profissao.nome);
+        $("#id").val(profissao.id);
     } else {
         alert('Não foi possível encontrar a tarefa');
     }
@@ -202,12 +264,15 @@ function excluir(id){
     renderizaFuncionario();
 }
 
-/*
-    (function() {
-        var selValue = $('input[name=situation]:checked').val(); 
-        $('p').html('<br/>Selected Radio Button Value is : <b>' + selValue + '</b>');
-    });
-*/
+function excluirprofissao(id){
+    listaprofissoes = listaprofissoes
+        .filter(function(value){
+            return value.id != id;
+        });
+
+    gravaProfissaoNoLocalStorage();
+    renderizaProfissao();
+}
 
 function findFuncionarioById(id){
     let funcionarios = listaFuncionarios
@@ -222,11 +287,24 @@ function findFuncionarioById(id){
     }
 }
 
+function findProfissaoById(id){
+    let profissao = listaprofissoes
+        .filter(function(value){
+            return value.id == id;
+        });
+    
+    if(profissao.length == 0){
+        return undefined;
+    }else{
+        return profissao[0];
+    }
+}
+
 function zerarInputs(){
     $("#formularioFuncionarios input select").val('');
 }
 
-function zerarInputs(){
+function zerarInputsProfissao(){
     $("#formularioProfissao input").val('');
 }
 
@@ -238,6 +316,14 @@ function gravaNoLocalStorage(){
     localStorage.setItem("lista", listaEmJSON);
 }
 
+function gravaProfissaoNoLocalStorage(){
+    // convertendo a lista em string no formato JSON
+    const listaEmJSON = JSON.stringify(listaprofissoes);
+
+    // gravando no localStorage
+    localStorage.setItem("listaprofissao", listaEmJSON);
+}
+
 function buscaDoLocalStorage(){
     // busca do local storage
     const listaStorage = localStorage.getItem("lista");
@@ -246,9 +332,20 @@ function buscaDoLocalStorage(){
     listaFuncionarios = JSON.parse(listaStorage) || [];
 }
 
+function buscaProfissaoDoLocalStorage(){
+    // busca do local storage
+    const listaStorage = localStorage.getItem("listaprofissao");
+
+    // converte para lista e atribui
+    listaprofissoes = JSON.parse(listaStorage) || [];
+}
+
     // o que se deseja executar
     buscaDoLocalStorage();
+    buscaProfissaoDoLocalStorage();
+    listaprofissoes1(listaprofissoes);
     renderizaFuncionario();
+    renderizaProfissao();
 
     $("#formularioFuncionarios").on("submit", function (evt){
             salvarFuncionario();

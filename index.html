@@ -11,7 +11,7 @@
 
 <div class="w3-bar w3-black">
   <button class="w3-bar-item w3-button" onclick="abrirAba('CadastroProfissao')">Nova Profissão</button>
-  <button class="w3-bar-item w3-button" onclick="abrirAba('CadastroFuncionario')">Novo Funcionario</button>
+  <button class="w3-bar-item w3-button" id="cadFunc" onclick="abrirAba('CadastroFuncionario')">Novo Funcionario</button>
   <button class="w3-bar-item w3-button" onclick="abrirAba('VizualizarFuncionarios')">Visualizar Funcionarios</button>
 </div>
 <form id="formularioProfissao">
@@ -25,6 +25,16 @@
     <br>
     <button type="submit">Limpar</button>
     <button type="submit">Adicionar</button>
+    <br>
+    <br>
+            <table border="1">
+            <thead>
+                <th>Nome</th>
+            </thead>
+            <tbody id="corpo-tabela-profissoes">
+
+            </tbody>
+        </table>
 </div>
 </form> 
 <form id="formularioFuncionarios">
@@ -57,6 +67,9 @@
       </div>
       <br>
       <button type="submit">Salvar</button>
+        
+
+</div>
 </div>
 </form>
 
